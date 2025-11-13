@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이수진 | Visual Designer Portfolio</title>
+    <title>이수진 - Visual Designer Portfolio</title>
     <style>
-        /* ========== 기본 스타일 ========== */
+        /* ========== 기본 설정 ========== */
         * {
             margin: 0;
             padding: 0;
@@ -13,21 +13,27 @@
         }
 
         :root {
-            /* B2 비비드 컬러풀 테마 */
-            --primary-pink: #FF6B9D;
-            --primary-purple: #C879FF;
-            --primary-blue: #4D96FF;
-            --primary-yellow: #FFD93D;
-            --dark: #1a1a1a;
+            /* 비비드 컬러풀 팔레트 */
+            --pink: #FF6B9D;
+            --purple: #C879FF;
+            --blue: #4D96FF;
+            --yellow: #FFD93D;
+            --dark: #1a1a2e;
             --light: #ffffff;
-            --gray: #666666;
+            --gray: #f5f5f5;
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
             color: var(--dark);
-            line-height: 1.6;
+            background-color: var(--light);
             overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ========== 스무스 스크롤 ========== */
+        html {
+            scroll-behavior: smooth;
         }
 
         /* ========== 네비게이션 ========== */
@@ -38,59 +44,63 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 20px 5%;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem 5%;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
         }
 
         nav.scrolled {
-            padding: 15px 5%;
-            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+            padding: 1rem 5%;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
         }
 
-        nav .container {
+        nav .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
         }
 
-        .logo {
+        nav .logo {
             font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .nav-links {
+        nav ul {
             display: flex;
-            gap: 30px;
             list-style: none;
+            gap: 2rem;
         }
 
-        .nav-links a {
+        nav ul li a {
             text-decoration: none;
             color: var(--dark);
             font-weight: 500;
-            transition: all 0.3s ease;
             position: relative;
+            transition: color 0.3s ease;
         }
 
-        .nav-links a::after {
+        nav ul li a:hover {
+            color: var(--pink);
+        }
+
+        nav ul li a::after {
             content: '';
             position: absolute;
             bottom: -5px;
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-pink);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            transition: width 0.4s ease;
         }
 
-        .nav-links a:hover::after {
+        nav ul li a:hover::after {
             width: 100%;
         }
 
@@ -105,82 +115,126 @@
         .menu-toggle span {
             width: 25px;
             height: 3px;
-            background: var(--dark);
+            background: var(--pink);
             transition: all 0.3s ease;
+            border-radius: 3px;
         }
 
         /* ========== 히어로 섹션 (매거진 스타일) ========== */
-        #hero {
+        .hero {
             min-height: 100vh;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            padding: 120px 5% 80px;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            padding: 8rem 5% 4rem;
             max-width: 1400px;
             margin: 0 auto;
-            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-content {
             position: relative;
+            z-index: 2;
         }
 
-        .hero-title {
+        .hero-label {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            transform: rotate(-2deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero h1 {
             font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
             font-weight: 900;
-            line-height: 0.9;
-            margin-bottom: 20px;
-            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.4s;
         }
 
-        .hero-title .name-ko {
+        .hero h1 .name-ko {
             display: block;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            background: linear-gradient(135deg, var(--pink), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero-title .name-en {
+        .hero h1 .name-en {
             display: block;
-            font-size: 2.5rem;
-            color: var(--gray);
-            font-weight: 400;
-            margin-top: 10px;
+            font-size: 3rem;
+            color: var(--dark);
+            opacity: 0.8;
         }
 
-        .hero-job {
-            font-size: 1.5rem;
-            color: var(--primary-purple);
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--blue);
             font-weight: 600;
-            margin-bottom: 30px;
-            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
         }
 
-        .hero-description {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 40px;
+        .hero .description {
+            font-size: 1.1rem;
             line-height: 1.8;
+            color: #666;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.8s;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-            color: white;
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1s;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
             text-decoration: none;
-            border-radius: 50px;
             font-weight: 600;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
             box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
         }
 
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.4);
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
         }
 
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--pink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--pink);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* 히어로 이미지 영역 (매거진 스타일) */
         .hero-visual {
             position: relative;
             height: 600px;
@@ -190,14 +244,13 @@
             position: absolute;
             width: 400px;
             height: 500px;
-            border-radius: 30px;
+            background: linear-gradient(135deg, var(--yellow), var(--pink));
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hero-image-container:hover {
-            transform: rotate(-3deg) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transform: rotate(5deg);
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.2s;
         }
 
         .hero-image-container img {
@@ -206,60 +259,45 @@
             object-fit: cover;
         }
 
-        /* 매거진 스타일 장식 요소 */
-        .decoration-box {
+        /* 장식 요소들 */
+        .deco-circle {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            z-index: -1;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            opacity: 0.1;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .decoration-box.pink {
-            background: var(--primary-pink);
-            top: -20px;
-            right: -20px;
-            opacity: 0.3;
+        .deco-square {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--yellow);
+            opacity: 0.2;
+            bottom: 100px;
+            left: -50px;
+            transform: rotate(45deg);
+            animation: float 8s ease-in-out infinite;
         }
 
-        .decoration-box.blue {
-            background: var(--primary-blue);
-            bottom: -20px;
-            left: -20px;
-            opacity: 0.3;
-        }
-
-        /* ========== About Me 섹션 ========== */
-        #about {
-            padding: 100px 5%;
-            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
-        }
-
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 60px;
+        /* ========== About Me 섹션 (비대칭 매거진) ========== */
+        .about {
+            padding: 8rem 5%;
+            background: var(--gray);
             position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
-            border-radius: 4px;
+            overflow: hidden;
         }
 
         .about-container {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 80px;
             max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 5rem;
             align-items: center;
         }
 
@@ -267,50 +305,139 @@
             position: relative;
         }
 
-        .about-image img {
+        .about-image-wrapper {
+            position: relative;
             width: 100%;
+            height: 500px;
             border-radius: 30px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            transform: rotate(-3deg);
         }
 
-        .about-image:hover img {
-            transform: scale(1.05) rotate(-2deg);
+        .about-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            opacity: 0.2;
+            border-radius: 30px;
+            z-index: -1;
         }
 
-        .about-content h3 {
-            font-size: 2rem;
-            color: var(--primary-purple);
-            margin-bottom: 20px;
+        .about-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .about-content p {
             font-size: 1.1rem;
-            color: var(--gray);
             line-height: 1.9;
-            margin-bottom: 15px;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .highlight-item {
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--pink);
+        }
+
+        .highlight-item:nth-child(2) {
+            border-left-color: var(--purple);
+        }
+
+        .highlight-item:nth-child(3) {
+            border-left-color: var(--blue);
+        }
+
+        .highlight-item:nth-child(4) {
+            border-left-color: var(--yellow);
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .highlight-item h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--pink);
+        }
+
+        .highlight-item p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
         }
 
         /* ========== Skills 섹션 ========== */
-        #skills {
-            padding: 100px 5%;
+        .skills {
+            padding: 8rem 5%;
+            background: white;
+        }
+
+        .skills-container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 5rem;
+        }
+
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
         }
 
         .skill-card {
-            padding: 40px 30px;
-            border-radius: 20px;
+            padding: 3rem 2rem;
             background: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
@@ -322,14 +449,14 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            background: linear-gradient(90deg, var(--pink), var(--purple));
             transform: scaleX(0);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.4s ease;
         }
 
         .skill-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
         }
 
         .skill-card:hover::before {
@@ -337,25 +464,40 @@
         }
 
         .skill-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .skill-card h3 {
             font-size: 1.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
             color: var(--dark);
         }
 
-        .skill-card p {
-            color: var(--gray);
-            line-height: 1.7;
+        .skill-list {
+            list-style: none;
+            font-size: 1rem;
+            color: #666;
         }
 
-        /* ========== Projects 섹션 (매거진 비대칭 레이아웃) ========== */
-        #projects {
-            padding: 100px 5%;
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+        .skill-list li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: var(--gray);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-list li:hover {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* ========== Projects 섹션 (매거진 레이아웃) ========== */
+        .projects {
+            padding: 8rem 5%;
+            background: var(--gray);
         }
 
         .projects-container {
@@ -363,270 +505,310 @@
             margin: 0 auto;
         }
 
-        .project-item {
+        .projects-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 100px;
-            align-items: center;
+            gap: 4rem;
+            margin-top: 5rem;
         }
 
-        /* 비대칭 레이아웃을 위한 교대 배치 */
-        .project-item:nth-child(even) {
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:nth-child(even) {
+            grid-template-columns: 1fr 1fr;
             direction: rtl;
         }
 
-        .project-item:nth-child(even) > * {
+        .project-card:nth-child(even) > * {
             direction: ltr;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.15);
         }
 
         .project-image {
             position: relative;
-            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .project-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+            height: 100%;
+            min-height: 400px;
         }
 
         .project-image img {
             width: 100%;
-            height: 400px;
+            height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.6s ease;
         }
 
-        .project-info h3 {
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.9), rgba(200, 121, 255, 0.9));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-overlay span {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .project-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-number {
+            font-size: 1rem;
+            color: var(--pink);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .project-content h3 {
             font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--yellow), var(--pink));
+            color: white;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .project-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
         }
 
         .project-tags {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 0.8rem;
         }
 
-        .tag {
-            padding: 8px 20px;
-            background: var(--primary-yellow);
+        .project-tag {
+            padding: 0.5rem 1rem;
+            background: var(--gray);
             color: var(--dark);
-            border-radius: 20px;
+            border-radius: 15px;
             font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .project-info p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            line-height: 1.8;
-            margin-bottom: 25px;
-        }
-
-        .project-link {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary-blue);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .project-link:hover {
-            background: var(--primary-purple);
-            transform: translateX(5px);
+        .project-tag:hover {
+            background: var(--purple);
+            color: white;
         }
 
         /* ========== Contact 섹션 ========== */
-        #contact {
-            padding: 100px 5%;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+        .contact {
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
         }
 
         .contact-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
-        #contact .section-title {
-            color: white;
+        .contact h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
         }
 
-        #contact .section-title::after {
-            background: white;
+        .contact p {
+            font-size: 1.3rem;
+            margin-bottom: 4rem;
+            opacity: 0.9;
         }
 
         .contact-info {
-            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
 
         .contact-item {
-            margin-bottom: 30px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .contact-item i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
         .contact-item h3 {
             font-size: 1.3rem;
-            margin-bottom: 10px;
-            opacity: 0.9;
+            margin-bottom: 0.5rem;
         }
 
         .contact-item a {
             color: white;
             text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
         }
 
         .contact-item a:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
+            opacity: 1;
+            text-decoration: underline;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
+            gap: 2rem;
         }
 
-        .social-links a {
+        .social-link {
             width: 60px;
             height: 60px;
             background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            text-decoration: none;
             font-size: 1.5rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            text-decoration: none;
+            transition: all 0.4s ease;
         }
 
-        .social-links a:hover {
+        .social-link:hover {
             background: white;
-            color: var(--primary-purple);
-            transform: translateY(-10px) rotate(360deg);
+            color: var(--pink);
+            transform: translateY(-5px) rotate(360deg);
         }
 
         /* ========== Footer ========== */
         footer {
+            padding: 2rem 5%;
             background: var(--dark);
             color: white;
             text-align: center;
-            padding: 30px 5%;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            opacity: 0.8;
         }
 
         footer a {
-            color: var(--primary-yellow);
+            color: var(--pink);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         footer a:hover {
-            color: var(--primary-pink);
+            color: var(--purple);
+            text-decoration: underline;
         }
 
-        /* ========== 반응형 디자인 ========== */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                right: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background: white;
-                flex-direction: column;
-                padding: 50px;
-                transition: right 0.5s ease;
-                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        /* ========== 애니메이션 ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-
-            .nav-links.active {
-                right: 0;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            .menu-toggle {
-                display: flex;
-            }
-
-            .menu-toggle.active span:nth-child(1) {
-                transform: rotate(45deg) translate(8px, 8px);
-            }
-
-            .menu-toggle.active span:nth-child(2) {
+        @keyframes fadeIn {
+            from {
                 opacity: 0;
             }
-
-            .menu-toggle.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(8px, -8px);
-            }
-
-            #hero {
-                grid-template-columns: 1fr;
-                padding-top: 100px;
-            }
-
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-title .name-en {
-                font-size: 1.5rem;
-            }
-
-            .hero-visual {
-                height: 400px;
-            }
-
-            .hero-image-container {
-                width: 100%;
-                height: 400px;
-            }
-
-            .about-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .project-item {
-                grid-template-columns: 1fr;
-            }
-
-            .project-item:nth-child(even) {
-                direction: ltr;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
+            to {
+                opacity: 1;
             }
         }
 
-        /* ========== 스크롤 애니메이션 ========== */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        /* 스크롤 애니메이션 클래스 */
         .fade-in {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
         }
 
         .fade-in.visible {
@@ -634,224 +816,174 @@
             transform: translateY(0);
         }
 
-        /* ========== 스크롤바 스타일 ========== */
-        ::-webkit-scrollbar {
-            width: 10px;
+        /* ========== 반응형 디자인 ========== */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 6rem;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .project-card,
+            .project-card:nth-child(even) {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 5rem 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.4s ease;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero h1 .name-en {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .about-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact h2 {
+                font-size: 2.5rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-            border-radius: 5px;
-        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .project-content h3 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 네비게이션 -->
+    <!-- ========== 네비게이션 ========== -->
     <nav id="navbar">
-        <div class="container">
+        <div class="nav-container">
             <div class="logo">LSJ</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="menu-toggle" id="menuToggle">
+            <div class="menu-toggle" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
+            <ul id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#about" onclick="closeMenu()">About</a></li>
+                <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+                <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- 히어로 섹션 -->
-    <section id="hero">
-        <div class="hero-content fade-in">
-            <h1 class="hero-title">
+    <!-- ========== 히어로 섹션 ========== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-label">VISUAL DESIGNER</div>
+            <h1>
                 <span class="name-ko">이수진</span>
                 <span class="name-en">Lee Sujin</span>
             </h1>
-            <p class="hero-job">VISUAL DESIGNER</p>
-            <p class="hero-description">
-                상상력이 팡팡 터지는 비주얼 퍼블리싱 디자이너입니다.
+            <p class="subtitle">VISUAL DESIGNER</p>
+            <p class="description">
+                상상력이 팡팡 터지는 비주얼 퍼블리싱 디자이너입니다.<br>
+                창의적인 아이디어로 브랜드에 생명을 불어넣습니다.
             </p>
-            <a href="#contact" class="cta-button">Let's Work Together</a>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">프로젝트 보기</a>
+                <a href="#contact" class="btn btn-secondary">연락하기</a>
+            </div>
         </div>
-        <div class="hero-visual fade-in">
+        <div class="hero-visual">
+            <div class="deco-circle"></div>
+            <div class="deco-square"></div>
             <div class="hero-image-container">
-                <img src="https://via.placeholder.com/400x500/FF6B9D/FFFFFF?text=VISUAL+DESIGNER" alt="이수진">
-                <div class="decoration-box pink"></div>
-                <div class="decoration-box blue"></div>
+                <img src="https://via.placeholder.com/400x500/FF6B9D/FFFFFF?text=Visual+Designer" alt="이수진">
             </div>
         </div>
     </section>
 
-    <!-- About Me 섹션 -->
-    <section id="about">
-        <h2 class="section-title fade-in">About Me</h2>
+    <!-- ========== About Me 섹션 ========== -->
+    <section class="about" id="about">
         <div class="about-container">
             <div class="about-image fade-in">
-                <img src="https://via.placeholder.com/400x500/C879FF/FFFFFF?text=Profile" alt="프로필 이미지">
+                <div class="about-image-wrapper">
+                    <img src="https://via.placeholder.com/500x500/C879FF/FFFFFF?text=About+Me" alt="About Me">
+                </div>
             </div>
             <div class="about-content fade-in">
-                <h3>안녕하세요!</h3>
+                <h2>About Me</h2>
                 <p>
-                    저는 색상과 형태로 이야기를 전달하는 비주얼 디자이너 이수진입니다.
-                    창의적인 아이디어와 트렌디한 감각으로 브랜드의 정체성을 시각적으로 표현합니다.
+                    안녕하세요! 비주얼 디자이너 이수진입니다.
                 </p>
                 <p>
-                    편집 디자인부터 디지털 콘텐츠까지, 다양한 매체에서 임팩트 있는 비주얼을 
-                    만들어내는 것이 저의 강점입니다. 매 프로젝트마다 새로운 도전을 즐기며, 
-                    클라이언트의 비전을 현실로 만드는 데 열정을 쏟고 있습니다.
+                    저는 창의적인 시각 디자인을 통해 브랜드의 이야기를 전달하는 것을 좋아합니다. 
+                    색채와 타이포그래피, 레이아웃의 조화로 사용자의 마음을 움직이는 디자인을 추구합니다.
                 </p>
                 <p>
-                    함께 멋진 작업을 만들어가고 싶습니다!
+                    다양한 프로젝트 경험을 바탕으로 트렌디하면서도 개성 있는 디자인 솔루션을 
+                    제공하고 있습니다. 항상 새로운 도전을 즐기며, 끊임없이 성장하는 디자이너가 되겠습니다.
                 </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills 섹션 -->
-    <section id="skills">
-        <h2 class="section-title fade-in">Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-card fade-in">
-                <div class="skill-icon">🎨</div>
-                <h3>Graphic Design</h3>
-                <p>Adobe Photoshop, Illustrator, InDesign을 활용한 전문적인 그래픽 디자인</p>
-            </div>
-            <div class="skill-card fade-in">
-                <div class="skill-icon">📱</div>
-                <h3>UI/UX Design</h3>
-                <p>Figma를 이용한 사용자 중심의 인터페이스 및 경험 디자인</p>
-            </div>
-            <div class="skill-card fade-in">
-                <div class="skill-icon">📚</div>
-                <h3>Editorial Design</h3>
-                <p>잡지, 브로슈어, 책 등 인쇄물의 레이아웃 및 타이포그래피 디자인</p>
-            </div>
-            <div class="skill-card fade-in">
-                <div class="skill-icon">🎬</div>
-                <h3>Motion Graphics</h3>
-                <p>After Effects를 활용한 동적인 비주얼 콘텐츠 제작</p>
-            </div>
-            <div class="skill-card fade-in">
-                <div class="skill-icon">🖼️</div>
-                <h3>Branding</h3>
-                <p>브랜드 아이덴티티 구축 및 일관된 비주얼 시스템 개발</p>
-            </div>
-            <div class="skill-card fade-in">
-                <div class="skill-icon">✨</div>
-                <h3>Illustration</h3>
-                <p>독창적인 일러스트레이션으로 브랜드 스토리 시각화</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects 섹션 -->
-    <section id="projects">
-        <h2 class="section-title fade-in">Projects</h2>
-        <div class="projects-container">
-            <!-- 프로젝트 1 -->
-            <div class="project-item fade-in">
-                <div class="project-image">
-                    <img src="https://via.placeholder.com/600x400/FF6B9D/FFFFFF?text=Brand+Identity" alt="프로젝트 1">
-                </div>
-                <div class="project-info">
-                    <h3>Modern Cafe 브랜딩</h3>
-                    <div class="project-tags">
-                        <span class="tag">Branding</span>
-                        <span class="tag">Logo Design</span>
-                        <span class="tag">Print</span>
-                    </div>
-                    <p>
-                        트렌디한 카페를 위한 전체 브랜드 아이덴티티 개발. 로고, 메뉴판, 
-                        패키징 디자인까지 일관된 비주얼 시스템을 구축했습니다.
-                    </p>
-                    <a href="#" class="project-link">View Details →</a>
-                </div>
-            </div>
-
-            <!-- 프로젝트 2 -->
-            <div class="project-item fade-in">
-                <div class="project-image">
-                    <img src="https://via.placeholder.com/600x400/C879FF/FFFFFF?text=Magazine+Layout" alt="프로젝트 2">
-                </div>
-                <div class="project-info">
-                    <h3>Life & Style 매거진</h3>
-                    <div class="project-tags">
-                        <span class="tag">Editorial</span>
-                        <span class="tag">Layout</span>
-                        <span class="tag">Typography</span>
-                    </div>
-                    <p>
-                        라이프스타일 매거진의 편집 디자인. 비대칭 레이아웃과 대담한 
-                        타이포그래피로 독자의 시선을 사로잡는 디자인을 완성했습니다.
-                    </p>
-                    <a href="#" class="project-link">View Details →</a>
-                </div>
-            </div>
-
-            <!-- 프로젝트 3 -->
-            <div class="project-item fade-in">
-                <div class="project-image">
-                    <img src="https://via.placeholder.com/600x400/4D96FF/FFFFFF?text=App+UI+Design" alt="프로젝트 3">
-                </div>
-                <div class="project-info">
-                    <h3>Fitness App UI/UX</h3>
-                    <div class="project-tags">
-                        <span class="tag">UI/UX</span>
-                        <span class="tag">Mobile</span>
-                        <span class="tag">Prototype</span>
-                    </div>
-                    <p>
-                        운동 추적 앱의 사용자 인터페이스 디자인. 직관적인 네비게이션과 
-                        생동감 있는 컬러로 사용자 경험을 극대화했습니다.
-                    </p>
-                    <a href="#" class="project-link">View Details →</a>
-                </div>
-            </div>
-
-            <!-- 프로젝트 4 -->
-            <div class="project-item fade-in">
-                <div class="project-image">
-                    <img src="https://via.placeholder.com/600x400/FFD93D/333333?text=Poster+Series" alt="프로젝트 4">
-                </div>
-                <div class="project-info">
-                    <h3>음악 페스티벌 포스터</h3>
-                    <div class="project-tags">
-                        <span class="tag">Poster</span>
-                        <span class="tag">Illustration</span>
-                        <span class="tag">Print</span>
-                    </div>
-                    <p>
-                        여름 음악 페스티벌을 위한 포스터 시리즈. 강렬한 색상과 역동적인 
-                        구도로 축제의 에너지를 시각적으로 표현했습니다.
-                    </p>
-                    <a href="#" class="project-link">View Details →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact 섹션 -->
-    <section id="contact">
-        <div class="contact-container">
-            <h2 class="section-title fade-in">Contact</h2>
-            <div class="contact-info fade-in">
-                <div class="contact-item">
-                    <h3>Email</h3>
-                    <a href="mailto:sujin.lee@example.com">sujin.lee@example.com</a>
-                </div>
-                <div class="contact-item">
-                    <h3>Phone</h3>
-                    <a href="tel:+821
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <h3>5+</h3>
+                        <p>Years Experience</p>
+                    </div
